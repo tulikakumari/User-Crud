@@ -3,60 +3,62 @@ package user;
 import java.util.Scanner;
 
 public class Service {
+
     Scanner scan = new Scanner(System.in);
     User[] users = new User[10];
     int count = 0;
 
+    private static final String MODIFY_OPTIONS = "##########################################\n" +
+        "# 1 name\t\t\t\t\t\t#\n" +
+        "# 2 age\t\t\t\t\t\t#\n" +
+        "# 3 gender\t\t\t\t\t\t#\n" +
+        "# 4 address\t\t\t\t\t\t#\n" +
+        "# 5 pin code\t\t\t\t\t\t#\n" +
+        "# 6 state\t\t\t\t\t\t#\n" +
+        "# 0 return\t\t\t\t\t\t#\n" +
+        "##########################################\n";
+
     public void addUser() {
 
-
-        System.out.println("enter Details of user Separated by comma");
-        System.out.println(" Input details: name(String), age(int), GENDER(M/F), address(String), pincode(String), state(String)  separated by comma");
-        String input = scan.nextLine();
-        System.out.println(input);
+        System.out.println("Enter Details of user Separated by comma");
+        String input = scanAndCheckLine(
+            "Input details: name(String), age(int), GENDER(M/F), address(String), pincode(String), state(String)  separated by comma");
 
         String[] split = input.split(",");
 
-        String name = split[0];
-        int age = Integer.parseInt(split[1]);
-        Gender gender = Gender.valueOf(split[2].toUpperCase());
-        String address = split[3];
-        String pinCode = split[4];
-        String state = split[5];
+        if (split.length <= 6) {
+            System.out.println("String has less number of fields then required. Required 6, found " + split.length);
+        } else {
+            String name = split[0];
+            int age = Integer.parseInt(split[1]);
+            Gender gender = Gender.valueOf(split[2].toUpperCase());
+            String address = split[3];
+            String pinCode = split[4];
+            String state = split[5];
 
+            User user = new User(count, name, age, gender, pinCode, state, address);
+            users[count] = user;
 
-        User user = new User(count, name, age, gender, pinCode, state, address);
-        users[count] = user;
-
-        System.out.println("Saved " + user.getName() + " with " + user.getId() + " id ");
-
-        count++;
+            System.out.println("Saved " + user.getName() + " with " + user.getId() + " id ");
+            count++;
+        }
     }
 
     public void deleteUser() {
-        String ids = scan.nextLine();
-        if (ids.length() == 0) {
-            System.out.println("Please try again");
-        }
-        int id = Integer.parseInt(ids);
+        String idStr = scanAndCheckLine("Enter id of user you want to delete");
+        final int id = Integer.parseInt(idStr);
 
-        for (int i = 0; i <= users.length; i++) {
+        User currentIndexUser = users[id];
 
-            User user2 = users[i];
-
-//            if (user2 == null) {
-//                continue;
-//            }
-
-            if (id == user2.getId()) {
-                System.out.print("Deleted " + user2.getName() + " with " + user2.getId() + " id ");
-                user2 = null;
-                break;
-//                continue;
-
+        if (currentIndexUser != null) {
+            if (id == currentIndexUser.getId()) {
+                System.out.print("Deleted " + currentIndexUser.getName() + " with " + currentIndexUser.getId() + " id ");
+                users[id] = null;
             }
-
+        } else {
+            System.out.println("No user found for id " + id);
         }
+
 
     }
 
@@ -64,95 +66,78 @@ public class Service {
 
         System.out.println("Enter the name you want to search");
         String name = scan.next();
+        boolean found = false;
 
-        for (int i = 0; i < users.length; i++) {
-
-            User user3 = users[i];
-
-            if (name == user3.getName()) {
-                System.out.println("Searched" + user3.getName() + " with " + user3.getId() + " id ");
+        for (User user3 : users) {
+            if (user3 != null) {
+                if (name.equalsIgnoreCase(user3.getName())) {
+                    found = true;
+                    System.out.println("Searched" + user3.getName() + " with " + user3.getId() + " id ");
+                    break;
+                }
             }
+        }
+
+        if (!found) {
+            System.out.println("No user with name " + name + "found");
         }
     }
 
     public void modifyUser() {
-        System.out.println("Enter id of user you want to modify");
 
-        String ids = scan.nextLine();
-        if (ids.length() == 0) {
-            System.out.println("Please try again");
-        }
-        int id = Integer.parseInt(ids);
+        String input = scanAndCheckLine("Enter id of user you want to modify");
+        final int id = Integer.parseInt(input);
 
+        User userInArrayAtIndexId = users[id];
 
-        for (int i = 0; i < users.length; i++) {
-            User user4 = users[i];
+        if (userInArrayAtIndexId == null) {
+            System.out.println("No user present at id " + id);
+        } else {
+            System.out.println(MODIFY_OPTIONS);
+            String operationStr = scanAndCheckLine("Input the field you want to modify");
 
+            int operation = Integer.parseInt(operationStr);
 
+            if (operation == 1) {
+                String name = scanAndCheckLine("Enter new name");
+                userInArrayAtIndexId.setName(name);
 
-            if(user4 != null) {
-                 if(id == user4.getId()){
-                    String options = "##########################################\n" +
-                            "# 1 name\t\t\t\t\t\t#\n" +
-                            "# 2 age\t\t\t\t\t\t#\n" +
-                            "# 3 gender\t\t\t\t\t\t#\n" +
-                            "# 4 address\t\t\t\t\t\t#\n" +
-                            "# 5 pincode\t\t\t\t\t\t#\n" +
-                            "# 6 state\t\t\t\t\t\t#\n" +
-                            "# 0 return\t\t\t\t\t\t#\n" +
-                            "##########################################\n";
-                    System.out.println(options);
+            } else if (operation == 2) {
+                int age = Integer.parseInt(scanAndCheckLine("Enter new age"));
+                userInArrayAtIndexId.setAge(age);
 
-                    System.out.println("Input the field you want to modify");
+            } else if (operation == 3) {
+                userInArrayAtIndexId.setGender(userInArrayAtIndexId.getGender() == Gender.M ? Gender.F : Gender.M);
 
-                    String ops = scan.nextLine();
-                    if (ops.length() == 0) {
-                        System.out.println("Please try again");
-                    }
-                    int op = Integer.parseInt(ops);
+            } else if (operation == 4) {
+                String address = scanAndCheckLine("Enter new address");
+                userInArrayAtIndexId.setAddress(address);
 
-                    if (op == 1) {
-                        System.out.println("Enter new name");
-                        String name = scan.next();
-                        user4.setName(name);
-                    } else if (op == 2) {
-                        System.out.println("Enter new age");
+            } else if (operation == 5) {
+                String pin = scanAndCheckLine("Enter new pinCode");
+                userInArrayAtIndexId.setPinCode(pin);
 
-                        String ages = scan.nextLine();
-                        if (ages.length() == 0) {
-                            System.out.println("Please try again");
-                        }
-                        int age = Integer.parseInt(ages);
+            } else if (operation == 6) {
+                String state = scanAndCheckLine("Enter new state");
+                userInArrayAtIndexId.setState(state);
 
-                        user4.setAge(age);
-                    } else if (op == 3) {
-                        if (user4.getGender() == Gender.M) {
-                            user4.setGender(Gender.F);
-                        } else {
-                            user4.setGender(Gender.M);
-                        }
-                    } else if (op == 4) {
-                        System.out.println("Enter new address");
-                        String address = scan.next();
-                        user4.setAddress(address);
-
-                    } else if (op == 5) {
-                        System.out.println("Enter new pinCode");
-                        String pincode = scan.next();
-                        user4.setPinCode(pincode);
-                    } else if (op == 6) {
-                        System.out.println("Enter new state");
-                        String state = scan.next();
-                        user4.setState(state);
-                    }
-                    System.out.print("Updated the user with id " + user4.getId());
-                    System.out.println(" " + user4);
-
-
-                }
+            } else {
+                System.out.println("Invalid operation");
             }
 
+            System.out.println("Updated the user with id " + userInArrayAtIndexId.getId() + " " + userInArrayAtIndexId);
         }
+    }
 
+    private String scanAndCheckLine(String message) {
+        do {
+            System.out.println(message);
+            String line = scan.nextLine();
+            if (line.length() == 0) {
+                System.out.println("Invalid input please try again");
+            } else {
+                return line;
+            }
+        } while (true);
     }
 }
