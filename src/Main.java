@@ -16,30 +16,31 @@ public class Main {
                         "# 4 Modify User\t\t\t\t\t\t\t#\n" +
                         "# 0 Exit\t\t\t\t\t\t\t\t#\n" +
                         "##########################################\n";
-
+//        System.out.println(mainOption);
         Service service = new Service();
 
-        int number = scan.nextInt();
 
 
-        while (number != 0) {
+        while (true) {
 
             System.out.println(mainOption);
+            int number = scan.nextInt();
 
-            number = scan.nextInt();
+
             if (number == 0) {
                 return;
             } else if (number == 1) {
                 service.addUser();
-            } else if (number == 2) {
+            }
+           else if (number == 2) {
                 service.deleteUser();
             }
-//        else if(number==3){
-//            service.searchUser();
-//        }
-//        else if(number==4){
-//            service.modifyUser();
-//        }
+        else if(number==3){
+            service.searchUser();
+        }
+        else if(number==4){
+            service.modifyUser();
+        }
             else {
                 System.out.println("Inavalid option");
             }

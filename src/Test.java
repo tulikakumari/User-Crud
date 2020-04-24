@@ -22,6 +22,8 @@ public class Test {
         catch (IOException e) {
             e.printStackTrace();
         }
+
+        // read
         File file = new File("/Users/tulika/Desktop/Assignment/data.csv");
 
         try (Scanner sc = new Scanner(file, StandardCharsets.UTF_8.name())) {
