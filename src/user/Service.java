@@ -26,7 +26,7 @@ public class Service {
 
         String[] split = input.split(",");
 
-        if (split.length <= 6) {
+        if (split.length < 6) {
             System.out.println("String has less number of fields then required. Required 6, found " + split.length);
         } else {
             String name = split[0];

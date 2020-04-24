@@ -1,24 +1,28 @@
+import user.Gender;
+import user.User;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.Scanner;
-import user.Gender;
-import user.User;
 
 public class Test {
 
-    private static String location = "/Users/tulika/Desktop/Assignment/data.csv";
+    private static String location = "/Users/tulika/Desktop/assignments/User-Crud/data.csv";
 //    private static String location = "/home/hduser/tulika/User-Crud/data.csv";
 
     public static void main(String[] args) {
+
 
         File file = new File(location);
         User[] users = new User[100];
         int count = 0;
 
-        try (Scanner sc = new Scanner(file, StandardCharsets.UTF_8.name())) {
+        Scanner sc = null;
+        try {
+            sc = new Scanner(file, StandardCharsets.UTF_8.name());
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] words = line.split(",");
@@ -32,13 +36,17 @@ public class Test {
                     String address = words[6];
 
                     User user = new User(id, name, age, gender, pin, state, address);
-                    users[count] = user;
+                    users[id] = user;
                     count++;
                 }
 
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (sc != null) {
+                sc.close();
+            }
         }
 
         System.out.println("Imported " + count + "users");
@@ -51,8 +59,8 @@ public class Test {
         for (User user : users) {
             if (user != null) {
                 String userDataCommaSeparated = user.getId() + "," + user.getName() + ","
-                    + user.getAge() + "," + user.getGender() + "," + user.getPinCode() + ","
-                    + user.getState() + "," + user.getAddress();
+                        + user.getAge() + "," + user.getGender() + "," + user.getPinCode() + ","
+                        + user.getState() + "," + user.getAddress();
                 usersDataInCSV.append(userDataCommaSeparated).append("\n");
             }
         }

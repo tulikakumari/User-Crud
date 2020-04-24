@@ -1,5 +1,6 @@
-import java.util.Scanner;
 import user.Service;
+
+import java.util.Scanner;
 
 public class Main {
 
@@ -15,6 +16,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         Service service = new Service();
+
 
         while (true) {
 
