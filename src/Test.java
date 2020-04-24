@@ -9,8 +9,8 @@ import user.User;
 
 public class Test {
 
-    //    private static String location = "/Users/tulika/Desktop/Assignment/data.csv";
-    private static String location = "/home/hduser/tulika/User-Crud/data.csv";
+    private static String location = "/Users/tulika/Desktop/Assignment/data.csv";
+//    private static String location = "/home/hduser/tulika/User-Crud/data.csv";
 
     public static void main(String[] args) {
 
