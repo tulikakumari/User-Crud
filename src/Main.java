@@ -1,22 +1,38 @@
 import user.Service;
+import user.Writer;
+import user.User;
 
 import java.util.Scanner;
 
 public class Main {
 
     private static final String MAIN_OPTIONS =
-        "##########################################\n" +
-            "# 1 Add user\t\t\t\t\t\t\t#\n" +
-            "# 2 Delete User\t\t\t\t\t\t\t#\n" +
-            "# 3 Search User\t\t\t\t\t\t\t#\n" +
-            "# 4 Modify User\t\t\t\t\t\t\t#\n" +
-            "# 0 Exit\t\t\t\t\t\t\t\t#\n" +
-            "##########################################\n";
+            "##########################################\n" +
+                    "# 1 Add user\t\t\t\t\t\t\t#\n" +
+                    "# 2 Delete User\t\t\t\t\t\t\t#\n" +
+                    "# 3 Search User\t\t\t\t\t\t\t#\n" +
+                    "# 4 Modify User\t\t\t\t\t\t\t#\n" +
+                    "# 5 Print User\t" +
+                    "# 0 Exit\t\t\t\t\t\t\t\t#\n" +
+                    "##########################################\n";
 
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        Service service = new Service();
 
+
+        Scanner scan = new Scanner(System.in);
+        User[] userss = new User[10];
+
+//        Service service = new Service();
+
+
+        Reader reader = new Reader();
+        reader.readUsers();
+
+
+        Service service = new Service(reader.readUsers());
+
+
+//        System.out.println(userss);
 
         while (true) {
 
@@ -26,6 +42,8 @@ public class Main {
             switch (option) {
                 case 0:
                     System.out.println("I am very bad programmer Tulika I cant save to file sorry.");
+                    Writer write = new Writer();
+//                    write.writeUsersToCSV();
                     System.out.println("Exiting.");
                     return;
                 case 1:
@@ -39,6 +57,9 @@ public class Main {
                     break;
                 case 4:
                     service.modifyUser();
+                    break;
+                case 5:
+                    service.printAllUsers();
                     break;
                 default:
                     System.out.println("Invalid option");

@@ -1,12 +1,32 @@
 package user;
 
 import java.util.Scanner;
+import user.User;
 
 public class Service {
 
     Scanner scan = new Scanner(System.in);
-    User[] users = new User[10];
+
     int count = 0;
+
+    User[] users = new User[20];
+
+    public  Service(User[] userss){
+
+        User[] users = userss;
+
+        for(int i = 0;i<users.length;i++)
+        {
+            if(users[i] !=  null)
+            {
+                this.count++;
+            }
+        }
+
+        System.out.println(count);
+    }
+
+
 
     private static final String MODIFY_OPTIONS = "##########################################\n" +
         "# 1 name\t\t\t\t\t\t#\n" +
@@ -17,6 +37,11 @@ public class Service {
         "# 6 state\t\t\t\t\t\t#\n" +
         "# 0 return\t\t\t\t\t\t#\n" +
         "##########################################\n";
+    public void printAllUsers(){
+        for(int i =0 ;i<users.length;i++){
+        System.out.println(users[i]);}
+        System.out.println(this.count);
+    }
 
     public void addUser() {
 
