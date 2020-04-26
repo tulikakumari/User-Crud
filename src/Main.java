@@ -20,13 +20,9 @@ public class Main {
 
 
         Scanner scan = new Scanner(System.in);
-        User[] userss = new User[10];
-
-//        Service service = new Service();
 
 
         Reader reader = new Reader();
-        reader.readUsers();
 
 
         Service service = new Service(reader.readUsers());
